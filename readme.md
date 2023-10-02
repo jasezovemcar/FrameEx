@@ -13,7 +13,7 @@
 ##
 
 
-#For developers:
+# For developers:
 - The app is essentially a wrapper for calling frame extraction with FFmpeg.exe. Therefore you need the FFmpeg.exe in the same folder with FrameEx.exe.
 - Don't forget to add FFmpeg inside debug folder for testing. If you build your own app, you can change variable 'ffmpegPath' in code as it suits you.
 - Restore NuGet packages
