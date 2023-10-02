@@ -8,8 +8,9 @@
 ## Steps:
 1) Select the video you want to extract frames from
 2) Select the output folder for the frames
-3) Select timestamps of the first and the last frame of a sequence you want the frames extracted for (Optional)
-4) EXTRACT
+3) Select the output format for frames (Optional)
+4) Select timestamps of the first and the last frame of a sequence you want the frames extracted for (Optional)
+5) EXTRACT
 ##
 
 
