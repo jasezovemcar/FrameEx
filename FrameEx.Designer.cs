@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrameEx));
             this.selectVideoBtn = new System.Windows.Forms.Button();
             this.selectVideoLbl = new System.Windows.Forms.Label();
@@ -53,9 +52,6 @@
             this.trackBar = new System.Windows.Forms.TrackBar();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.mainMenu1 = new System.Windows.Forms.MainMenu(this.components);
-            this.menuItem1 = new System.Windows.Forms.MenuItem();
-            this.menuItem2 = new System.Windows.Forms.MenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.firstFrameTimestampUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lastFrameTimestampUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.endVideoTimestampBtn)).BeginInit();
@@ -325,29 +321,11 @@
             this.radioButton2.UseVisualStyleBackColor = true;
             this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
-            // mainMenu1
-            // 
-            this.mainMenu1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem1});
-            // 
-            // menuItem1
-            // 
-            this.menuItem1.Index = 0;
-            this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem2});
-            this.menuItem1.Text = "File";
-            // 
-            // menuItem2
-            // 
-            this.menuItem2.Enabled = false;
-            this.menuItem2.Index = 0;
-            this.menuItem2.Text = "Made by Ognjen Marinkovic";
-            // 
             // FrameEx
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(546, 543);
+            this.ClientSize = new System.Drawing.Size(546, 517);
             this.Controls.Add(this.radioButton2);
             this.Controls.Add(this.radioButton1);
             this.Controls.Add(this.trackBar);
@@ -373,9 +351,8 @@
             this.Controls.Add(this.selectVideoBtn);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(564, 590);
-            this.Menu = this.mainMenu1;
-            this.MinimumSize = new System.Drawing.Size(564, 590);
+            this.MaximumSize = new System.Drawing.Size(564, 564);
+            this.MinimumSize = new System.Drawing.Size(564, 564);
             this.Name = "FrameEx";
             this.Text = "FrameEx";
             ((System.ComponentModel.ISupportInitialize)(this.firstFrameTimestampUpDown)).EndInit();
@@ -413,9 +390,6 @@
         private System.Windows.Forms.TrackBar trackBar;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.MainMenu mainMenu1;
-        private System.Windows.Forms.MenuItem menuItem1;
-        private System.Windows.Forms.MenuItem menuItem2;
     }
 }
 

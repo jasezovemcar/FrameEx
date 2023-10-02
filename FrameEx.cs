@@ -25,10 +25,11 @@ namespace FrameEx
         public FrameEx()
         {
             InitializeComponent();
+            // Select jpg as default output format
             formatPicker.SelectedIndex = 0;
             // Subscribe to the FormClosing event
             this.FormClosing += FrameExFormClosing;
-            // postavljanje putanje do ffmpeg-a
+            // Set path to ffmpeg-a
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             ffmpegPath = Path.Combine(baseDirectory, "ffmpeg.exe");
         }
@@ -38,15 +39,15 @@ namespace FrameEx
             {
                 openFileDialog.Filter = "Video Files|*.mp4;*.m4v;*.mov;*.avi;*.mkv;*.wmv|All Files|*.*";
                 openFileDialog.Title = "Select a Video File";
-                //openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    // save path to video
+                    // Save path
                     inputVideoPath = openFileDialog.FileName;
                     selectVideoTxtbox.Text = inputVideoPath;
+                    // For output filename formating
                     videoName = Path.GetFileNameWithoutExtension(inputVideoPath);
 
-                    // get video duration
+                    // Get video duration using ffmpeg
                     Process getVideoDuration = new Process();
                     getVideoDuration.StartInfo.FileName = ffmpegPath;
                     getVideoDuration.StartInfo.Arguments = $"-i \"{inputVideoPath}\"";
@@ -70,7 +71,7 @@ namespace FrameEx
                     // Convert the duration string to a TimeSpan
                     if (TimeSpan.TryParse(duration, out TimeSpan videoDuration))
                     {
-                        // ffmpeg rounds down video lenght if there's 0 on the first decimal place when extracting frames
+                        // FFmpeg rounds down video length if there's 0 in the first decimal place when extracting frames
                         string totalDurationInSecondsTest = videoDuration.TotalSeconds.ToString(); // Convert the number to a string
                         int decimalPointIndexDur = totalDurationInSecondsTest.IndexOf('.');
                         if (decimalPointIndexDur != -1 && decimalPointIndexDur + 1 < totalDurationInSecondsTest.Length && totalDurationInSecondsTest[decimalPointIndexDur + 1] == '0')
@@ -81,20 +82,18 @@ namespace FrameEx
                         {
                             totalDurationInSeconds = videoDuration.TotalSeconds;
                         }
-                        Console.WriteLine($"Duration from ffmpeg: {duration}"); // Duration from ffmpeg: 02:05:41.90
-                        Console.WriteLine($"Total Duration (Seconds): {totalDurationInSeconds}"); // Total Duration (Seconds): 7541.9
-                        // set trackBar size
+                        // Set trackBar size
                         trackBar.Maximum = (int)totalDurationInSeconds;
-                        // duration of video is set as last frames initial location, set Last frame maximum, restart First frame value
+                        // Duration of a video is set as last frames initial location, set Last frame maximum, restart First frame value
                         lastFrameTimestampUpDown.Maximum = (decimal)totalDurationInSeconds;
                         lastFrameTimestampUpDown.Value = lastFrameTimestampUpDown.Maximum;
                         lastFrameTimestampUpDown.Value = lastFrameTimestampUpDown.Maximum;
                         firstFrameTimestampUpDown.Value = 0;
                     }
-                    // get video fps
+                    // Get video fps
                     var media = new MediaInfoWrapper(inputVideoPath);
                     fps = media.Framerate;
-                    // ffmpeg rounds down FPS if there's 0 on the first decimal place and rounds up for every other case when extracting frames
+                    // FFmpeg rounds down FPS if there's 0 on the first decimal place and rounds up for every other case when extracting frames
                     string fpsTest = fps.ToString(); // Convert the number to a string
                     int decimalPointIndexFps = fpsTest.IndexOf('.');
                     if (decimalPointIndexFps != -1 && decimalPointIndexFps + 1 < fpsTest.Length && fpsTest[decimalPointIndexFps + 1] == '0') {
@@ -103,15 +102,9 @@ namespace FrameEx
                     else {
                         fps = Math.Ceiling(fps);
                     }
-                    // enable Buttons for frame searching
-                    firstFrameTimestampUpDown.Enabled = true;
-                    lastFrameTimestampUpDown.Enabled = true;
-                    startVideoTimestampBtn.Enabled = true;
-                    endVideoTimestampBtn.Enabled = true;
-                    trackBar.Enabled = true;
-                    radioButton1.Enabled = true;
-                    radioButton2.Enabled = true;
-                    // enable Extract button if you already have outputPath selected
+                    // Enable Buttons for frame searching
+                    EnableButtonForFrameSeaching();
+                    // Enable Extract button if you already have outputPath selected
                     if (outputFolder != "")
                     {
                         extractBtn.Enabled = true;
@@ -136,7 +129,7 @@ namespace FrameEx
                 {
                     outputFolder = folderBrowserDialog.SelectedPath;
                     outputFolderTxtbox.Text = outputFolder;
-                    // enable Extract button if you already have inputVideo selected
+                    // Enable Extract button if you already have inputVideo selected
                     if (inputVideoPath != "")
                     {
                         extractBtn.Enabled = true;
@@ -184,7 +177,7 @@ namespace FrameEx
             radioButton2.Enabled = false;
             stopBtn.Enabled = true;
             progressBar.Value = 0;
-            // disable Buttons for frame searching
+            // Disable Buttons for frame searching
             firstFrameTimestampUpDown.Enabled = false;
             lastFrameTimestampUpDown.Enabled = false;
             startVideoTimestampBtn.Enabled = false;
@@ -206,13 +199,7 @@ namespace FrameEx
                         selectVideoBtn.Enabled = true;
                         outputFolderBtn.Enabled = true;
                         // enable Buttons for frame searching
-                        firstFrameTimestampUpDown.Enabled = true;
-                        lastFrameTimestampUpDown.Enabled = true;
-                        startVideoTimestampBtn.Enabled = true;
-                        endVideoTimestampBtn.Enabled = true;
-                        trackBar.Enabled = true;
-                        radioButton1.Enabled = true;
-                        radioButton2.Enabled = true;
+                        EnableButtonForFrameSeaching();
                     });
                     MessageBox.Show("Conversion complete!"); // User feedback
                 }
@@ -253,16 +240,9 @@ namespace FrameEx
                 selectVideoBtn.Enabled = true;
                 outputFolderBtn.Enabled = true;
                 // enable Buttons for frame searching
-                firstFrameTimestampUpDown.Enabled = true;
-                lastFrameTimestampUpDown.Enabled = true;
-                startVideoTimestampBtn.Enabled = true;
-                endVideoTimestampBtn.Enabled = true;
-                trackBar.Enabled = true;
-                radioButton1.Enabled = true;
-                radioButton2.Enabled = true;
+                EnableButtonForFrameSeaching();
                 MessageBox.Show("Conversion aborted!");            }
         }
-
 
         private void FrameExFormClosing(object sender, EventArgs e)
         {
@@ -383,6 +363,16 @@ namespace FrameEx
                 }
             }
 
+        }
+        private void EnableButtonForFrameSeaching()
+        {
+            firstFrameTimestampUpDown.Enabled = true;
+            lastFrameTimestampUpDown.Enabled = true;
+            startVideoTimestampBtn.Enabled = true;
+            endVideoTimestampBtn.Enabled = true;
+            trackBar.Enabled = true;
+            radioButton1.Enabled = true;
+            radioButton2.Enabled = true;
         }
     }
 }
