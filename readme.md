@@ -14,10 +14,12 @@
 
 
 #For developers:
-- The app is esencialy a wrapper for FFmpeg.exe call for frame extraction. Threfore you need the FFmpeg.exe in the same folder where FrameEx.exe is.
-- You need to add ffmpeg inside debug folder for testing. And if you build your own app, you can change variable 'ffmpegPath' in code as it suits you.
+- The app is essentially a wrapper for calling frame extraction with FFmpeg.exe. Therefore you need the FFmpeg.exe in the same folder with FrameEx.exe.
+- Don't forget to add FFmpeg inside debug folder for testing. If you build your own app, you can change variable 'ffmpegPath' in code as it suits you.
+- Restore NuGet packages
+- App target framework .NET Framework 4.5.2
 - GUI created using WinForms
-- Code is not clean and can be optimised a bit but it works and the app is fast.
+- Code is not clean and can be optimised a bit but it works fine and the app is fast.
 
 
 
